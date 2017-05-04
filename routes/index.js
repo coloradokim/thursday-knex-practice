@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const database = require('../db/knex.js')
 
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
   database('individuals').select()
   .then(function (listOfIndividuals) {
     res.status(200).json(listOfIndividuals)
@@ -34,7 +34,7 @@ router.post('/', (req, res) => {
     }).finally(() => {
       res.end()
     })
-})
+});
 
 router.delete('/individuals/:id', (req, res) => {
   let payload = { id: req.params.id }
@@ -45,7 +45,17 @@ router.delete('/individuals/:id', (req, res) => {
     }).finally(() => {
       res.end()
     })
-})
+});
+
+router.patch('/individuals/:id', (req, res) => {
+  let payload = {id: req.params.id}
+  database('individuals').where(payload)
+    .update(req.body).then((count) => {
+      console.log(`${count} entry was changed`);
+    }).finally(() => {
+      res.end()
+    })
+});
 
 
 module.exports = router;
