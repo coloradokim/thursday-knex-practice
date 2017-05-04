@@ -1,6 +1,6 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('individuals', (table) => {
-    table.increments('id').primary();
+    table.increments('id').primary().unsigned();
     table.string('name');
     table.string('characteristics');
     table.string('catch_phrase')
